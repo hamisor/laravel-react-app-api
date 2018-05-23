@@ -81,6 +81,11 @@ $app->singleton(
 // $app->register(App\Providers\AppServiceProvider::class);
 // $app->register(App\Providers\AuthServiceProvider::class);
 // $app->register(App\Providers\EventServiceProvider::class);
+// Lumen Generator
+$app->register(Flipbox\LumenGenerator\LumenGeneratorServiceProvider::class);
+// MongoDb Driver
+$app->register(Jenssegers\Mongodb\MongodbServiceProvider::class);
+$app->withEloquent();
 
 /*
 |--------------------------------------------------------------------------
