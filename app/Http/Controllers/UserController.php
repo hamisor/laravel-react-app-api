@@ -5,10 +5,10 @@ namespace App\Http\Controllers;
 // Hamisor
 use App\BusinessLogic\SiteDataProvider;
 use App\BusinessLogic\Enums\Enum_UserInfoType;
+use App\Exceptions\EmptyUserIdException;
+use App\Exceptions\UnknownUserInfoTypeException;
 // Lumen
 use Illuminate\Http\Response;
-// System
-use Throwable;
 
 class UserController extends Controller
 {
@@ -30,6 +30,8 @@ class UserController extends Controller
 	 * @param string $userId
 	 *
 	 * @return Response
+	 *
+	 * @throws UnknownUserInfoTypeException
 	 */
 	public function getBio(string $userId)
 	{
@@ -37,7 +39,7 @@ class UserController extends Controller
 		{
 			return response()->json($this->siteDataProvider->getUserInfo($userId, new Enum_UserInfoType(Enum_UserInfoType::USER_BIO)));
 		}
-		catch (Throwable $ex)
+		catch (EmptyUserIdException $ex)
 		{
 			return response()->json([
 				"error_msg"	=> $ex->getMessage()
@@ -50,6 +52,8 @@ class UserController extends Controller
 	 * @param string $userId
 	 *
 	 * @return Response
+	 *
+	 * @throws UnknownUserInfoTypeException
 	 */
 	public function getEducation(string $userId)
 	{
@@ -57,7 +61,7 @@ class UserController extends Controller
 		{
 			return response()->json($this->siteDataProvider->getUserInfo($userId, new Enum_UserInfoType(Enum_UserInfoType::USER_EDUCATION)));
 		}
-		catch (Throwable $ex)
+		catch (EmptyUserIdException $ex)
 		{
 			return response()->json([
 				"error_msg"	=> $ex->getMessage()
@@ -70,6 +74,8 @@ class UserController extends Controller
 	 * @param string $userId
 	 *
 	 * @return Response
+	 *
+	 * @throws UnknownUserInfoTypeException
 	 */
 	public function getSkills(string $userId)
 	{
@@ -77,7 +83,7 @@ class UserController extends Controller
 		{
 			return response()->json($this->siteDataProvider->getUserInfo($userId, new Enum_UserInfoType(Enum_UserInfoType::USER_SKILLS)));
 		}
-		catch (Throwable $ex)
+		catch (EmptyUserIdException $ex)
 		{
 			return response()->json([
 				"error_msg"	=> $ex->getMessage()
@@ -90,6 +96,8 @@ class UserController extends Controller
 	 * @param string $userId
 	 *
 	 * @return Response
+	 *
+	 * @throws UnknownUserInfoTypeException
 	 */
 	public function getWorkExperience(string $userId)
 	{
@@ -97,7 +105,7 @@ class UserController extends Controller
 		{
 			return response()->json($this->siteDataProvider->getUserInfo($userId, new Enum_UserInfoType(Enum_UserInfoType::USER_WORK_EXPERIENCE)));
 		}
-		catch (Throwable $ex)
+		catch (EmptyUserIdException $ex)
 		{
 			return response()->json([
 				"error_msg"	=> $ex->getMessage()
