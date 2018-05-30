@@ -59,6 +59,11 @@ class SiteDataProvider
 					[ "user_id"		=> new ObjectId($userId)],
 					[ "projection" 	=> ["_id" => 0]])
 					->getArrayCopy();
+            case Enum_UserInfoType::USER_WORK_EXPERIENCE:
+                return $collection->find(
+                    [ "user_id"		=> new ObjectId($userId)],
+                    ["projection" 	=> ["_id" => 0], "sort" => ["start_date" => -1]])
+                    ->toArray();
 			default:
 				return $collection->find(
 					[ "user_id"		=> new ObjectId($userId)],
