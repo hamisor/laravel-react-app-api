@@ -24,6 +24,7 @@ class UserController extends Controller
 	{
 		$this->siteDataProvider =$siteDataProvider;
 	}
+
 	/**
 	 * Get user's bio
 	 *
@@ -37,7 +38,7 @@ class UserController extends Controller
 	{
 		try
 		{
-			return response()->json($this->siteDataProvider->getUserInfo($userId, new Enum_UserInfoType(Enum_UserInfoType::USER_BIO)));
+			return response()->json($this->siteDataProvider->getUserBio($userId));
 		}
 		catch (EmptyUserIdException $ex)
 		{
@@ -46,6 +47,7 @@ class UserController extends Controller
 			], $ex->getCode());
 		}
 	}
+
 	/**
 	 * Get user's education
 	 *
@@ -59,7 +61,7 @@ class UserController extends Controller
 	{
 		try
 		{
-			return response()->json($this->siteDataProvider->getUserInfo($userId, new Enum_UserInfoType(Enum_UserInfoType::USER_EDUCATION)));
+			return response()->json($this->siteDataProvider->getUserEducation($userId));
 		}
 		catch (EmptyUserIdException $ex)
 		{
@@ -68,6 +70,7 @@ class UserController extends Controller
 			], $ex->getCode());
 		}
 	}
+
 	/**
 	 * Get user's skills
 	 *
@@ -81,7 +84,7 @@ class UserController extends Controller
 	{
 		try
 		{
-			return response()->json($this->siteDataProvider->getUserInfo($userId, new Enum_UserInfoType(Enum_UserInfoType::USER_SKILLS)));
+			return response()->json($this->siteDataProvider->getUserSkills($userId));
 		}
 		catch (EmptyUserIdException $ex)
 		{
@@ -90,6 +93,7 @@ class UserController extends Controller
 			], $ex->getCode());
 		}
 	}
+
 	/**
 	 * Get user's work experience
 	 *
@@ -103,7 +107,7 @@ class UserController extends Controller
 	{
 		try
 		{
-			return response()->json($this->siteDataProvider->getUserInfo($userId, new Enum_UserInfoType(Enum_UserInfoType::USER_WORK_EXPERIENCE)));
+			return response()->json($this->siteDataProvider->getUserWorkExperience($userId));
 		}
 		catch (EmptyUserIdException $ex)
 		{
@@ -112,6 +116,7 @@ class UserController extends Controller
 			], $ex->getCode());
 		}
 	}
+
     /**
      * Get user's projects
      *
@@ -125,7 +130,7 @@ class UserController extends Controller
     {
         try
         {
-            return response()->json($this->siteDataProvider->getUserInfo($userId, new Enum_UserInfoType(Enum_UserInfoType::USER_PROJECTS)));
+            return response()->json($this->siteDataProvider->getUserProjects($userId));
         }
         catch (EmptyUserIdException $ex)
         {
