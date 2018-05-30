@@ -45,20 +45,25 @@ class SiteDataProvider
 		if (empty($userId))
 			throw new EmptyUserIdException();
 
+		$collection =  $this->db->selectCollection(Map_UserInfoTypeToDbCollectionName::getCollectionName($userInfoType));
+
 		switch ($userInfoType)
 		{
 			case Enum_UserInfoType::USER_BIO:
-				$filterBy = "_id";
-				break;
+				return $collection->findOne(
+					[ "_id"			=> new ObjectId($userId)],
+					[ "projection" 	=> ["_id" => 0]])
+					->getArrayCopy();
+			case Enum_UserInfoType::USER_SKILLS:
+				return $collection->findOne(
+					[ "user_id"		=> new ObjectId($userId)],
+					[ "projection" 	=> ["_id" => 0]])
+					->getArrayCopy();
 			default:
-				$filterBy = "user_id";
+				return $collection->find(
+					[ "user_id"		=> new ObjectId($userId)],
+					["projection" 	=> ["_id" => 0]])
+					->toArray();
 		}
-
-		return $this->db
-			->selectCollection(Map_UserInfoTypeToDbCollectionName::getCollectionName($userInfoType))
-			->find(
-				[ $filterBy		=> new ObjectId($userId)],
-				["projection" 	=> ["_id" => 0]])
-			->toArray();
 	}
 }
