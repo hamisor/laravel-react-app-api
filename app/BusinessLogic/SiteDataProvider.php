@@ -29,47 +29,119 @@ class SiteDataProvider
 			$this->db = (new Connection($dbConfig))->getMongoDB();
 	}
 
-	// Todo: This function is becoming a kitchen sink, split query types into relevant functions
 	/**
-	 * Get user info by user id and info type
+	 * Get user bio
 	 *
-	 * @param string            $userId
-	 * @param Enum_UserInfoType $userInfoType
+	 * @param string $userId
 	 *
 	 * @return array
 	 *
 	 * @throws EmptyUserIdException
 	 * @throws UnknownUserInfoTypeException
 	 */
-	public function getUserInfo(string $userId, Enum_UserInfoType $userInfoType) : array
+	public function getUserBio(string $userId) : array
 	{
 		if (empty($userId))
 			throw new EmptyUserIdException();
 
-		$collection =  $this->db->selectCollection(Map_UserInfoTypeToDbCollectionName::getCollectionName($userInfoType));
-
-		switch ($userInfoType)
-		{
-			case Enum_UserInfoType::USER_BIO:
-				return $collection->findOne(
-					[ "_id"			=> new ObjectId($userId)],
-					[ "projection" 	=> ["_id" => 0]])
-					->getArrayCopy();
-			case Enum_UserInfoType::USER_SKILLS:
-				return $collection->findOne(
-					[ "user_id"		=> new ObjectId($userId)],
-					[ "projection" 	=> ["_id" => 0]])
-					->getArrayCopy();
-            case Enum_UserInfoType::USER_WORK_EXPERIENCE:
-                return $collection->find(
-                    [ "user_id"		=> new ObjectId($userId)],
-                    ["projection" 	=> ["_id" => 0], "sort" => ["start_date" => -1]])
-                    ->toArray();
-			default:
-				return $collection->find(
-					[ "user_id"		=> new ObjectId($userId)],
-					["projection" 	=> ["_id" => 0]])
-					->toArray();
-		}
+		return $this->db
+			->selectCollection(Map_UserInfoTypeToDbCollectionName::getCollectionName(new Enum_UserInfoType(Enum_UserInfoType::USER_BIO)))
+			->findOne(
+				["_id" => new ObjectId($userId)],
+				["projection" => ["_id" => 0]])
+			->getArrayCopy();
 	}
+
+	/**
+	 * Get user education
+	 *
+	 * @param string $userId
+	 *
+	 * @return array
+	 *
+	 * @throws EmptyUserIdException
+	 * @throws UnknownUserInfoTypeException
+	 */
+	public function getUserEducation(string $userId) : array
+	{
+		if (empty($userId))
+			throw new EmptyUserIdException();
+
+		return $this->db
+			->selectCollection(Map_UserInfoTypeToDbCollectionName::getCollectionName(new Enum_UserInfoType(Enum_UserInfoType::USER_EDUCATION)))
+			->find(
+				[ "user_id"		=> new ObjectId($userId)],
+				["projection" 	=> ["_id" => 0, "start_date" => 0 ], "sort" => ["start_date" => -1]])
+			->toArray();
+	}
+
+	/**
+	 * Get user skills
+	 *
+	 * @param string $userId
+	 *
+	 * @return array
+	 *
+	 * @throws EmptyUserIdException
+	 * @throws UnknownUserInfoTypeException
+	 */
+	public function getUserSkills(string $userId) : array
+	{
+		if (empty($userId))
+			throw new EmptyUserIdException();
+
+		return $this->db
+			->selectCollection(Map_UserInfoTypeToDbCollectionName::getCollectionName(new Enum_UserInfoType(Enum_UserInfoType::USER_SKILLS)))
+			->findOne(
+				[ "user_id"		=> new ObjectId($userId)],
+				[ "projection" 	=> ["_id" => 0]])
+			->getArrayCopy();
+	}
+
+	/**
+	 * Get user experience
+	 *
+	 * @param string $userId
+	 *
+	 * @return array
+	 *
+	 * @throws EmptyUserIdException
+	 * @throws UnknownUserInfoTypeException
+	 */
+	public function getUserWorkExperience(string $userId) : array
+	{
+		if (empty($userId))
+			throw new EmptyUserIdException();
+
+		return $this->db
+			->selectCollection(Map_UserInfoTypeToDbCollectionName::getCollectionName(new Enum_UserInfoType(Enum_UserInfoType::USER_WORK_EXPERIENCE)))
+			->find(
+				[ "user_id"		=> new ObjectId($userId)],
+				["projection" 	=> ["_id" => 0], "sort" => ["start_date" => -1]])
+			->toArray();
+	}
+
+	/**
+	 * Get user projects
+	 *
+	 * @param string $userId
+	 *
+	 * @return array
+	 *
+	 * @throws EmptyUserIdException
+	 * @throws UnknownUserInfoTypeException
+	 */
+	public function getUserProjects(string $userId) : array
+	{
+		if (empty($userId))
+			throw new EmptyUserIdException();
+
+		return $this->db
+			->selectCollection(Map_UserInfoTypeToDbCollectionName::getCollectionName(new Enum_UserInfoType(Enum_UserInfoType::USER_PROJECTS)))
+			->find(
+				[ "user_id"		=> new ObjectId($userId)],
+				["projection" 	=> ["_id" => 0, "start_date" => 0 ], "sort" => ["start_date" => -1]])
+			->toArray();
+	}
+
 }
