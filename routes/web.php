@@ -22,3 +22,4 @@ $router->get('users/{id}/bio',				['as' => 'profile', 		'uses' => 'UserControlle
 $router->get('users/{id}/education', 		['as' => 'education', 		'uses' => 'UserController@getEducation']);
 $router->get('users/{id}/skills', 			['as' => 'skills', 			'uses' => 'UserController@getSkills']);
 $router->get('users/{id}/work-experience', 	['as' => 'work_experience', 'uses' => 'UserController@getWorkExperience']);
+$router->get('users/{id}/projects', 	    ['as' => 'projects',        'uses' => 'UserController@getProjects']);

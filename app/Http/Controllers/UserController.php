@@ -112,4 +112,26 @@ class UserController extends Controller
 			], $ex->getCode());
 		}
 	}
+    /**
+     * Get user's projects
+     *
+     * @param string $userId
+     *
+     * @return Response
+     *
+     * @throws UnknownUserInfoTypeException
+     */
+    public function getProjects(string $userId)
+    {
+        try
+        {
+            return response()->json($this->siteDataProvider->getUserInfo($userId, new Enum_UserInfoType(Enum_UserInfoType::USER_PROJECTS)));
+        }
+        catch (EmptyUserIdException $ex)
+        {
+            return response()->json([
+                "error_msg"	=> $ex->getMessage()
+            ], $ex->getCode());
+        }
+    }
 }

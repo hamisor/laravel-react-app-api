@@ -29,6 +29,7 @@ class SiteDataProvider
 			$this->db = (new Connection($dbConfig))->getMongoDB();
 	}
 
+	// Todo: This function is becoming a kitchen sink, split query types into relevant functions
 	/**
 	 * Get user info by user id and info type
 	 *

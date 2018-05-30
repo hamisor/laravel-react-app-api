@@ -29,7 +29,9 @@ class Map_UserInfoTypeToDbCollectionName
 				return "skills";
 			case Enum_UserInfoType::USER_WORK_EXPERIENCE:
 				return "work_experience";
-			default:
+            case Enum_UserInfoType::USER_PROJECTS:
+                return "projects";
+            default:
 				throw new UnknownUserInfoTypeException();
 		}
 	}
